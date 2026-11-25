@@ -33,11 +33,12 @@ SHELL='''<!doctype html>
 <div id="src" style="display:none">
 {pages}
 </div>
+<div id="hid" style="display:none">{hid}</div>
 <script src="../assets/js/flip.js"></script>
 <script>
 const pages=[...document.querySelectorAll('#src > .pg')];
 const fb=new Flipbook({{stage:document.getElementById('stage'),pw:{pw},ph:{ph},pages,maxScale:{ms},onchange:(p,L,label,mode)=>{{document.getElementById('ct').textContent=label;document.getElementById('prev').disabled=p===0;if(p>0){{const h=document.getElementById('hint');if(h)h.style.opacity=0}}document.getElementById('next').disabled=(mode==='single')?p===L-1:p===L;}}}});
-document.getElementById('prev').onclick=()=>fb.prev();document.getElementById('next').onclick=()=>fb.next();
+document.getElementById('prev').onclick=()=>fb.prev();document.getElementById('next').onclick=()=>{{document.getElementById('next').classList.remove('pulse');fb.next()}};
 {js}
 </script>
 </body>
@@ -56,9 +57,9 @@ ws=' '.join(f'<span class="w{" keep" if n in kept else ""}" data-i="{n}">{w}</sp
 black=(F.lab('method one')+F.big(['blackout'],30)
  +F.p('take a page from an old letter, a magazine, or an old book. circle the words that stand out to you, then cross out, color or black out the rest. read the words you’ve collected out loud.',11,2)
  +f'<div class="nudge" style="font-family:{C};font-size:17px;line-height:1;color:{ACC};position:relative;z-index:1;margin:2px 0 4px">&#9998; your turn: tap any word to black it out. tap again to bring it back.</div>'
- +f'<div id="bo" style="font-family:{S};font-size:10px;line-height:1.65;color:{INK};position:relative;z-index:1;margin-top:2px">{ws}</div>'
- +f'<div id="bopoem" style="font-family:{S};font-size:11.5px;line-height:1.3;color:{INK};position:relative;z-index:1;margin-top:6px;font-style:italic;min-height:44px"></div>'
- +f'<div style="position:absolute;left:30px;bottom:26px;z-index:2;display:flex;gap:8px"><button class="mini" id="boclear">start over</button><button class="mini" id="boex">the example</button></div>')
+ +f'<div id="bo" style="font-family:{S};font-size:9.5px;line-height:1.55;color:{INK};position:relative;z-index:1;margin-top:0"></div>'
+ +f'<div id="bopoem" style="font-family:{S};font-size:11px;line-height:1.25;color:{INK};position:relative;z-index:1;margin-top:4px;font-style:italic;min-height:40px"></div>'
+ +f'<div style="position:absolute;left:30px;width:258px;bottom:12px;z-index:2;display:flex;flex-wrap:wrap;gap:5px"><button class="mini" id="boclear">reset</button><button class="mini" id="boex">example</button><button class="mini" id="bonew">new text</button><button class="mini" id="boshelf">save to shelf</button></div>')
 # cut and rearrange
 scr=['the quiet','OF TEA','steeping','in light','hum','small','kettle','still','window','again','keep','enough']
 styles=[("#f3e9d2",INK,"'Fraunces',serif",20,'font-style:italic;font-weight:700'),(INK,'#f3e9d2',S,13,'letter-spacing:2px'),(ACC,'#fff',"'Shrikhand',cursive",18,''),('#fff',INK,C,22,'border:1.4px solid '+INK),('#f3e9d2',INK,S,14,''),(INK,'#f3e9d2',"'Fraunces',serif",17,'font-style:italic;font-weight:700')]
@@ -70,7 +71,7 @@ cutp=(F.lab('method two')+F.big(['cut and','rearrange'],30)
  +F.p('cut single words out of anything. spread them on the table. move them around until the lines start to hum. glue them down.',11,2)
  +f'<div class="nudge" style="font-family:{C};font-size:17px;line-height:1;color:{ACC};position:relative;z-index:1;margin:2px 0">&#9998; your turn: drag the scraps around the table and build a line.</div>'
  +f'<div id="table" data-w="315" data-h="165" style="position:absolute;left:0;top:222px;width:315px;height:165px;z-index:1">{sc}</div>'
- +f'<div style="position:absolute;right:30px;bottom:12px;z-index:2"><button class="mini" id="scatter">scatter</button></div>')
+ +f'<div style="position:absolute;left:30px;right:30px;bottom:12px;z-index:2;display:flex;justify-content:space-between"><button class="mini" id="scshelf">save to shelf</button><button class="mini" id="scatter">scatter</button></div>')
 # gather (checkable)
 items=['a tea box','junk mail','a receipt','an old paperback','a seed packet','something overheard','a text from a friend']
 gather=(F.lab('gather')+F.p('collect words the way a naturalist collects specimens:',12.5,6)
@@ -95,16 +96,27 @@ words2=['hush','lantern','moss','remember','slow','window','salt','borrowed','li
 drift=(F.lab('method four')+F.big(['catch the','drifting words'],28)
  +f'<div class="nudge" style="font-family:{C};font-size:17px;line-height:1;color:{ACC};position:relative;z-index:1;margin:4px 0 0">&#9998; your turn: words are drifting by. tap one to catch it. tap a caught word to let it go.</div>'
  +'<div id="sky" data-w="315" data-h="150" style="position:absolute;left:0;top:152px;width:315px;height:150px;z-index:1;overflow:hidden;border:1.2px dashed #2a2a2a55;border-radius:10px">'+''.join(f'<span class="fw" data-nosw="1">{w}</span>' for w in words2)+'</div>'
- +f'<div style="position:absolute;left:30px;top:310px;font-family:{S};font-size:10px;color:{INK};z-index:2">your caught words:</div>'
+ +f'<div style="position:absolute;left:30px;top:310px;font-family:{S};font-size:9.5px;color:{INK};z-index:2">caught words · catch five, see what happens</div>'
  +f'<div id="net" style="position:absolute;left:30px;right:30px;top:326px;min-height:50px;z-index:2;font-family:{S};font-size:12px;line-height:1.7;color:{INK}"></div>'
- +f'<div style="position:absolute;right:30px;bottom:12px;z-index:3"><button class="mini" id="releaseall">let them all go</button></div>')
+ +f'<div style="position:absolute;left:30px;right:30px;bottom:12px;z-index:3;display:flex;justify-content:space-between"><button class="mini" id="drshelf">save to shelf</button><button class="mini" id="releaseall">let them all go</button></div>')
 CTA='if you want something more tangible to hold in your hand, you can purchase copies of my zines in my ko-fi luminarium store.'
 LINKS=('https://ko-fi.com/s/f060f062c3','https://www.the-luminarium.org','https://rainesillito.substack.com')
 fl=(F.lab('the luminarium')+F.big(['more to','wander into'],28)
  +F.p(CTA,11.5,8)
  +''.join(f'<p style="margin:0 0 7px;position:relative;z-index:1;font-family:{S};font-size:12px;line-height:1.35"><a href="{u}" target="_blank" rel="noopener" style="color:{ACC}">{t}</a></p>' for t,u in (('ko-fi luminarium store',LINKS[0]),('the-luminarium.org',LINKS[1]),('rainesillito.substack.com',LINKS[2]))))
-fpages=[F.cover,F.whatis,gather,black,cutp,overheard,drift,fo_i(),F.last,fl]
+shelfA=(F.lab('keep them')+F.big(['the poem shelf'],28)
+ +F.p('save poems from the blackout, scrap and drifting-word pages. they stay on this device. save any card as an image to share.',11,2)
+ +'<div id="shelfA" style="position:absolute;left:30px;right:30px;top:150px;z-index:1"></div>')
+shelfB='<div id="shelfB" style="position:absolute;left:30px;right:30px;top:34px;z-index:1"></div>'
+hid1=(F.lab('a hidden page')+F.big(['you caught','enough words.'],28)
+ +F.p('so here is a secret the ordinary keeps. the words were never lost. they were only drifting, waiting for someone to look up.',12,8)
+ +F.p('go on noticing.',12,8)
+ +f'<p style="margin:0;position:relative;z-index:1;font-family:{S};font-size:12px"><a href="https://rainesillito.substack.com" target="_blank" rel="noopener" style="color:{ACC}">rainesillito.substack.com</a></p>')
+hid2=(F.lab('the words you caught')+'<div id="hidwords" style="position:relative;z-index:1;font-family:'+S+';font-size:12px;line-height:2;color:'+INK+';margin-top:6px"></div>'
+ +'<div style="position:absolute;left:30px;bottom:12px;z-index:2"><button class="mini" id="hwshelf">save these to the shelf</button></div>')
+fpages=[F.cover,F.whatis,gather,black,cutp,shelfA,shelfB,overheard,drift,fo_i(),F.last,fl]
 fhtml=''.join(fpage(p) for p in fpages)
+fhid=''.join(fpage(p) for p in (hid1,hid2))
 fcss='''.in{position:relative;zoom:1.2941;width:315.2px;height:408px;box-sizing:border-box;padding:34px 30px 30px}
 .pg{width:408px;height:528px}
 .mini{font:inherit;font-size:9px;background:#fff;border:1px solid #2a2a2a;border-radius:999px;padding:3px 9px;cursor:pointer;color:#2a2a2a}.mini:hover{background:#2a2a2a;color:#fff}
@@ -127,8 +139,15 @@ fcss='''.in{position:relative;zoom:1.2941;width:315.2px;height:408px;box-sizing:
 .scrap{animation:wob 3.5s ease-in-out infinite}.scrap:nth-child(2n){animation-delay:-1.2s}.scrap:nth-child(3n){animation-delay:-2.2s}
 @keyframes wob{0%,100%{translate:0 0}50%{translate:0 -2px}}
 .w{transition:background .3s,color .3s}
+
+.mini{padding:3px 7px}
+.scard{border:1.2px solid #2a2a2a;background:#fbf8f0;padding:6px 8px 5px;margin-bottom:7px;box-shadow:1px 2px 0 rgba(0,0,0,.14);animation:pop .3s}
+.scard:nth-child(odd){transform:rotate(-.8deg)}.scard:nth-child(even){transform:rotate(.7deg)}
+.scard .ct{font-family:'Special Elite',monospace;font-size:10.5px;line-height:1.35;white-space:pre-line;display:-webkit-box;-webkit-line-clamp:4;-webkit-box-orient:vertical;overflow:hidden;margin-bottom:5px}
+.scard .row{display:flex;gap:5px}
+.empty{font-family:'Special Elite',monospace;font-size:10.5px;opacity:.5;border:1.2px dashed #2a2a2a;padding:10px;text-align:center}
 @media (prefers-reduced-motion:reduce){.pg img,.scrap,.nudge,.face.vis .in{animation:none}}'''
-fjs='''
+fjs=r'''
 const sky=document.getElementById('sky'),net=document.getElementById('net'),fws=[...sky.querySelectorAll('.fw')],SW=315,SH=150;
 const st=fws.map(el=>({el,x:Math.random()*200,y:Math.random()*150,vx:(Math.random()<.5?-1:1)*(14+Math.random()*22),vy:(Math.random()<.5?-1:1)*(8+Math.random()*16),on:true}));
 const fonts=["'Fraunces',serif","'Special Elite',monospace","'Caveat',cursive","'Shrikhand',cursive"];
@@ -142,12 +161,17 @@ document.getElementById('releaseall').onclick=()=>{net.innerHTML='';st.forEach(s
 const SK='ezine-found:';const store=(k,v)=>{try{localStorage.setItem(SK+k,v)}catch(e){}};const load=k=>{try{return localStorage.getItem(SK+k)}catch(e){return null}};
 document.querySelectorAll('[data-k]').forEach(el=>{const v=load(el.dataset.k);if(v!==null)el.value=v;el.addEventListener('input',()=>store(el.dataset.k,el.value))});
 document.querySelectorAll('.chk').forEach((el,i)=>{if(load('chk'+i)==='1')el.classList.add('done');el.addEventListener('click',()=>{el.classList.toggle('done');store('chk'+i,el.classList.contains('done')?'1':'0')})});
-const ws=[...document.querySelectorAll('#bo .w')],poem=document.getElementById('bopoem');
-function bpoem(){poem.textContent=ws.filter(w=>!w.classList.contains('off')).map(w=>w.textContent.replace(/[.,]/g,'')).join(' ');}
-function example(){ws.forEach(w=>w.classList.toggle('off',!w.classList.contains('keep')));bpoem();}
-ws.forEach(w=>w.addEventListener('click',()=>{w.classList.toggle('off');bpoem();}));
-document.getElementById('boclear').onclick=()=>{ws.forEach(w=>w.classList.remove('off'));bpoem();};
-document.getElementById('boex').onclick=example;example();
+const SRC=[{"t": "dear anna, i hope this finds you well. the weather here has turned. last night the kettle sang for an hour and the whole house seemed to listen. i have been thinking of all the things we never said. come home before the snow.", "k": ["the kettle sang", "the whole house seemed to listen", "all the things we never said", "come home"]}, {"t": "sow seeds directly after the last frost, about a quarter inch deep. keep soil moist until sprouts appear. thin seedlings once they find their first true leaves. blooms open in early summer and keep going until the cold comes. cut often for the vase. leave some for the bees.", "k": ["keep soil moist", "until sprouts appear", "blooms open", "keep going", "leave some for the bees"]}, {"t": "thank you for shopping with us. one loaf sourdough. two lemons. one jar honey. paid in full. items cannot be returned once opened. please keep this receipt for your records. we hope your day is sweet. come again soon.", "k": ["thank you", "jar honey", "paid in full", "keep this receipt", "we hope your day is sweet"]}, {"t": "steep in freshly boiled water for four minutes. best enjoyed slowly. contains no caffeine. made from leaves gathered in the early morning, when the garden is still quiet. store in a cool dark place. share generously.", "k": ["best enjoyed slowly", "gathered in the early morning", "when the garden is still quiet", "share generously"]}, {"t": "dear you, it rained all week and the river rose to the garden gate. i borrowed an umbrella and lost it by thursday. the neighbours left jam on the step. i think the whole town is learning how to wait. wish you were here.", "k": ["it rained all week", "the river rose to the garden gate", "the neighbours left jam on the step", "the whole town is learning how to wait"]}, {"t": "this book is due on the fifteenth. please return it in good condition. please do not fold the corners of the pages. a book is a small house for many voices. borrow it gently. renew it if you must. someone is waiting for the same quiet you found here.", "k": ["a book is a small house for many voices", "borrow it gently", "someone is waiting for the same quiet you found here"]}, {"t": "the next bus is delayed. please be patient. the sky is doing something remarkable above the shelter. look up. nothing here needs hurrying. your stop is two stops away. mind the gap between where you are and where you meant to be.", "k": ["look up", "nothing here needs hurrying", "mind the gap between where you are and where you meant to be"]}];
+const bo=document.getElementById('bo'),poem=document.getElementById('bopoem');let ws=[],keep=new Set(),brk=new Set(),cur=-1;
+const norm=s=>s.toLowerCase().replace(/[^a-z0-9]/g,'');
+function lines(idx,toks){let out=[],prev=-9;idx.forEach(i=>{if(i===prev+1&&out.length&&!brk.has(i))out[out.length-1]+=' '+toks[i];else out.push(toks[i]);prev=i});return out.map(s=>s.replace(/[.,;]/g,'')).join('\n')}
+function bpoem(){if(!ws.some(w=>w.classList.contains('off'))){poem.textContent='';return}const on=ws.map((w,i)=>w.classList.contains('off')?-1:i).filter(i=>i>=0);poem.textContent=lines(on,ws.map(w=>w.textContent))}
+function loadText(i){cur=i;store('lasttext',String(i));const toks=SRC[i].t.split(/\s+/);bo.innerHTML=toks.map((w,n)=>'<span class="w" data-i="'+n+'">'+w+'</span>').join(' ');ws=[...bo.querySelectorAll('.w')];keep=new Set();brk=new Set();const nt=toks.map(norm);let from=0;SRC[i].k.forEach(ph=>{const pt=ph.split(/\s+/).map(norm);for(let s=from;s<=nt.length-pt.length;s++){if(pt.every((x,j)=>nt[s+j]===x)){pt.forEach((_,j)=>keep.add(s+j));brk.add(s);from=s+pt.length;break}}});ws.forEach(w=>w.addEventListener('click',()=>{w.classList.toggle('off');bpoem()}));bpoem()}
+function pick(){let i=Math.floor(Math.random()*SRC.length);const l=parseInt(load('lasttext'));if(i===l)i=(i+1)%SRC.length;return i}
+loadText(pick());
+document.getElementById('boclear').onclick=()=>{ws.forEach(w=>w.classList.remove('off'));bpoem()};
+document.getElementById('boex').onclick=()=>{ws.forEach((w,i)=>w.classList.toggle('off',!keep.has(i)));bpoem()};
+document.getElementById('bonew').onclick=()=>{let i=Math.floor(Math.random()*SRC.length);if(i===cur)i=(i+1)%SRC.length;loadText(i)};
 const tb=document.getElementById('table'),W=315,H=165;
 const sc=[...tb.querySelectorAll('.scrap')];let zt=10;
 function scatter(){sc.forEach((s,i)=>{const cols=3,c=i%cols,r=Math.floor(i/cols);const x=8+c*98+Math.random()*16,y=4+r*38+Math.random()*8;s.style.left=Math.min(x,W-s.offsetWidth-4)+'px';s.style.top=Math.min(y,H-s.offsetHeight-2)+'px';s.style.transform=`rotate(${(Math.random()*10-5).toFixed(1)}deg)`;});}
@@ -155,9 +179,40 @@ scatter();document.getElementById('scatter').onclick=scatter;
 sc.forEach(s=>{s.addEventListener('pointerdown',e=>{e.stopPropagation();s.setPointerCapture(e.pointerId);s.style.zIndex=++zt;const rc=tb.getBoundingClientRect(),k=rc.width/W,r0=s.getBoundingClientRect();const gx=(e.clientX-r0.left)/k,gy=(e.clientY-r0.top)/k;
  const mv=ev=>{const x=(ev.clientX-rc.left)/k-gx,y=(ev.clientY-rc.top)/k-gy;s.style.left=Math.max(-10,Math.min(W-s.offsetWidth+10,x))+'px';s.style.top=Math.max(-60,Math.min(H+30,y))+'px';};
  const up=()=>{s.removeEventListener('pointermove',mv);s.removeEventListener('pointerup',up);};s.addEventListener('pointermove',mv);s.addEventListener('pointerup',up);});});
+const toast=document.createElement('div');toast.id='toast';document.body.appendChild(toast);let tt;
+function say(m){toast.textContent=m;toast.style.opacity=1;clearTimeout(tt);tt=setTimeout(()=>toast.style.opacity=0,2200)}
+let shelf=[];try{shelf=JSON.parse(load('shelf')||'[]')}catch(e){}
+const CAP=6;
+function renderShelf(){const A=document.getElementById('shelfA'),B=document.getElementById('shelfB');A.innerHTML='';B.innerHTML='';
+ if(!shelf.length){A.innerHTML='<div class="empty">nothing on the shelf yet.</div>';return}
+ shelf.forEach((p,i)=>{const d=document.createElement('div');d.className='scard';d.dataset.nosw=1;d.innerHTML='<div class="ct"></div><div class="row"><button class="mini" data-a="dl">save as image</button><button class="mini" data-a="rm">remove</button></div>';d.querySelector('.ct').textContent=p;
+  d.querySelector('[data-a=dl]').onclick=()=>cardPNG(p);d.querySelector('[data-a=rm]').onclick=()=>{shelf.splice(i,1);store('shelf',JSON.stringify(shelf));renderShelf()};
+  (i<2?A:B).appendChild(d)})}
+function toShelf(text){text=(text||'').trim();if(!text){say('nothing to save yet');return}shelf.unshift(text);if(shelf.length>CAP)shelf.length=CAP;store('shelf',JSON.stringify(shelf));renderShelf();say('saved to the poem shelf')}
+async function cardPNG(text){try{await document.fonts.load("54px 'Special Elite'");await document.fonts.load("40px 'Caveat'")}catch(e){}
+ const c=document.createElement('canvas');c.width=1080;c.height=1350;const x=c.getContext('2d');x.fillStyle='#fbf8f0';x.fillRect(0,0,1080,1350);
+ x.strokeStyle='rgba(60,120,105,.2)';x.lineWidth=2;for(let i=0;i<=1080;i+=45){x.beginPath();x.moveTo(i,0);x.lineTo(i,1350);x.stroke()}for(let j=0;j<=1350;j+=45){x.beginPath();x.moveTo(0,j);x.lineTo(1080,j);x.stroke()}
+ x.fillStyle='#fbf8f0';x.fillRect(80,80,920,1190);x.strokeStyle='#2a2a2a';x.lineWidth=5;x.strokeRect(80,80,920,1190);
+ let size=64,L;const wrap=s=>{const out=[];text.split('\n').forEach(line=>{let cur='';line.split(' ').forEach(w=>{const t=cur?cur+' '+w:w;if(x.measureText(t).width>800&&cur){out.push(cur);cur=w}else cur=t});out.push(cur)});return out};
+ for(;size>=26;size-=2){x.font=size+"px 'Special Elite', monospace";L=wrap();if(L.length*size*1.5<=900)break}
+ x.fillStyle='#2a2a2a';x.textAlign='center';x.font=size+"px 'Special Elite', monospace";const h=L.length*size*1.5;let y=640-h/2+size;L.forEach(l=>{x.fillText(l,540,y);y+=size*1.5});
+ x.fillStyle='#1f7a6d';x.font="44px 'Caveat', cursive";x.fillText('found poetry · the-luminarium.org',540,1200);
+ c.toBlob(bl=>{const a=document.createElement('a');a.href=URL.createObjectURL(bl);a.download='found-poem.png';document.body.appendChild(a);a.click();a.remove()})}
+renderShelf();
+document.getElementById('boshelf').onclick=()=>toShelf(poem.textContent);
+document.getElementById('scshelf').onclick=()=>{const L=sc.map(s=>({t:s.textContent,x:parseFloat(s.style.left)||0,y:parseFloat(s.style.top)||0})).sort((a,b)=>a.y-b.y);const rows=[];L.forEach(s=>{const r=rows[rows.length-1];if(r&&s.y-r.y<22)r.items.push(s);else rows.push({y:s.y,items:[s]})});toShelf(rows.map(r=>r.items.sort((a,b)=>a.x-b.x).map(i=>i.t).join(' ')).join('\n'))};
+document.getElementById('drshelf').onclick=()=>toShelf([...net.querySelectorAll('.caughtw')].map(c=>c.textContent).join(' '));
+let hist=[];try{hist=JSON.parse(load('hist')||'[]')}catch(e){}
+let ncaught=parseInt(load('ncaught')||'0');let unlocked=load('unlocked')==='1';const hidPages=[...document.querySelectorAll('#hid .pg')];
+function drawHid(){const h=document.getElementById('hidwords');h.innerHTML='';hist.slice(-14).forEach(w=>{const c=document.createElement('span');c.className='caughtw';c.style.cursor='default';c.textContent=w;h.appendChild(c)})}
+function openHidden(announce){unlocked=true;store('unlocked','1');fb.setPages([...pages,...hidPages]);drawHid();if(announce){say('a hidden page opened at the end');document.getElementById('next').classList.add('pulse')}}
+document.getElementById('hwshelf').onclick=()=>toShelf(hist.slice(-14).join(' '));
+sky.addEventListener('pointerdown',e=>{const w=e.target.closest('.fw');if(!w)return;hist.push(w.textContent);if(hist.length>40)hist=hist.slice(-40);store('hist',JSON.stringify(hist));ncaught++;store('ncaught',String(ncaught));if(!unlocked&&ncaught>=5)setTimeout(()=>openHidden(true),350)},true);
+if(unlocked)openHidden(false);
+
 '''
 os.makedirs(f'{R}/found-poetry',exist_ok=True)
-page=SHELL.format(title='how to write found poetry — an e-zine',css=fcss,pre='',hint='this one is interactive: tap, drag, catch and type.',pdf='<a href="how-to-write-found-poetry.pdf">print the paper version (pdf)</a>',pages=sub(fix(fhtml),FM),pw=408,ph=528,ms=1.6,js=fjs)
+page=SHELL.format(title='how to write found poetry — an e-zine',css=fcss,pre='',hid=fhid,hint='this one is interactive: tap, drag, catch and type.',pdf='<a href="how-to-write-found-poetry.pdf">print the paper version (pdf)</a>',pages=sub(fix(fhtml),FM),pw=408,ph=528,ms=1.6,js=fjs)
 open(f'{R}/found-poetry/index.html','w').write(page)
 print('found ok')
 
@@ -197,14 +252,25 @@ body{--bg:#e9eef6}
 .stage{z-index:2}.top,.nav{z-index:5}
 body{--gl:rgba(70,100,170,.16);--gm:rgba(70,100,170,.3)}
 @media (prefers-reduced-motion:reduce){#rain{display:none!important}}'''
-rjs='''
+rjs=r'''
 const SK='ezine-rainy:';const store=(k,v)=>{try{localStorage.setItem(SK+k,v)}catch(e){}};const load=k=>{try{return localStorage.getItem(SK+k)}catch(e){return null}};
 document.querySelectorAll('[data-k]').forEach(el=>{const v=load(el.dataset.k);if(v!==null)el.value=v;el.addEventListener('input',()=>store(el.dataset.k,el.value))});
 document.querySelectorAll('.cb').forEach(c=>{if(load('cb'+c.dataset.i)==='1')c.classList.add('on');c.addEventListener('click',()=>{c.classList.toggle('on');store('cb'+c.dataset.i,c.classList.contains('on')?'1':'0')})});
 const rain=document.getElementById('rain');for(let i=0;i<9;i++){const d=document.createElement('b');d.style.left=(4+Math.random()*92)+'%';d.style.animationDuration=(7+Math.random()*7)+'s';d.style.animationDelay=(-Math.random()*10)+'s';d.style.transform='scale('+(.7+Math.random()*.9)+')';rain.appendChild(d);}for(let i=0;i<110;i++){const d=document.createElement('i');d.style.left=Math.random()*100+'%';d.style.animationDuration=(0.7+Math.random()*0.8)+'s';d.style.animationDelay=(-Math.random()*2)+'s';d.style.opacity=.25+Math.random()*.4;rain.appendChild(d);}
 const rb=document.getElementById('rainbtn');const setR=on=>{rain.classList.toggle('on',on);rb.textContent=on?'stop the rain':'let it rain';};rb.onclick=()=>setR(!rain.classList.contains('on'));if(!matchMedia('(prefers-reduced-motion:reduce)').matches)setR(true);
+let AC=null,SN=null;
+function startSound(){AC=AC||new (window.AudioContext||window.webkitAudioContext)();AC.resume();const sr=AC.sampleRate,len=sr*4,buf=AC.createBuffer(1,len,sr),d=buf.getChannelData(0);let b0=0,b1=0,b2=0;for(let i=0;i<len;i++){const w=Math.random()*2-1;b0=.99765*b0+w*.099046;b1=.963*b1+w*.2965164;b2=.57*b2+w*1.0526913;d[i]=(b0+b1+b2+w*.1848)*.11}
+ const src=AC.createBufferSource();src.buffer=buf;src.loop=true;const hp=AC.createBiquadFilter();hp.type='highpass';hp.frequency.value=380;const lp=AC.createBiquadFilter();lp.type='lowpass';lp.frequency.value=7000;
+ const g=AC.createGain();g.gain.value=0;g.gain.linearRampToValueAtTime(.55,AC.currentTime+1.5);
+ const lfo=AC.createOscillator(),lg=AC.createGain();lfo.frequency.value=.13;lg.gain.value=.08;lfo.connect(lg);lg.connect(g.gain);lfo.start();
+ src.connect(hp);hp.connect(lp);lp.connect(g);g.connect(AC.destination);src.start();
+ const timer=setInterval(()=>{if(AC.state!=='running')return;const o=AC.createOscillator(),eg=AC.createGain();o.type='sine';o.frequency.value=1400+Math.random()*2600;eg.gain.setValueAtTime(.0001,AC.currentTime);eg.gain.exponentialRampToValueAtTime(.03,AC.currentTime+.004);eg.gain.exponentialRampToValueAtTime(.0001,AC.currentTime+.07);o.connect(eg);eg.connect(g);o.start();o.stop(AC.currentTime+.09)},140);
+ SN={src,g,timer,lfo}}
+function stopSound(){if(!SN)return;const s=SN;SN=null;clearInterval(s.timer);s.g.gain.cancelScheduledValues(AC.currentTime);s.g.gain.setTargetAtTime(0,AC.currentTime,.2);setTimeout(()=>{try{s.src.stop();s.lfo.stop()}catch(e){}},900)}
+const sb=document.getElementById('soundbtn');sb.onclick=()=>{if(SN){stopSound();sb.textContent='rain sound'}else{startSound();sb.textContent='sound off'}};
+
 '''
 os.makedirs(f'{R}/rainy-day',exist_ok=True)
-rp=SHELL.format(title='instructions for a rainy day — an e-zine',css=rcss,pre='<div id="rain"></div>',hint='tap the boxes, type in the blanks.',pdf='<button class="mini" id="rainbtn">let it rain</button> &nbsp; <a href="https://ko-fi.com/s/f060f062c3" target="_blank" rel="noopener">get the paper zines</a>',pages=sub(fix(rhtml),RMAP),pw=264,ph=408,ms=2,js=rjs)
+rp=SHELL.format(title='instructions for a rainy day — an e-zine',css=rcss,pre='<div id="rain"></div>',hid='',hint='tap the boxes, type in the blanks.',pdf='<button class="mini" id="rainbtn">let it rain</button> <button class="mini" id="soundbtn">rain sound</button> &nbsp; <a href="https://ko-fi.com/s/f060f062c3" target="_blank" rel="noopener">get the paper zines</a>',pages=sub(fix(rhtml),RMAP),pw=264,ph=408,ms=2,js=rjs)
 open(f'{R}/rainy-day/index.html','w').write(rp)
 print('rainy ok')

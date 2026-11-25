@@ -66,6 +66,7 @@ class Flipbook {
     this.pos = p; this.apply(false);
     clearTimeout(this._t); this._t = setTimeout(() => this.leaves.forEach((l, i) => l.el.style.zIndex = i < this.pos ? i : L - i), 900);
   }
+  setPages(arr) { this.pages = arr.slice(); if (this.pages.length % 2) { const b = document.createElement('div'); b.className = 'pg blank'; this.pages.push(b); } this.n = this.pages.length; this.rebuild(); this.layout(); }
   next() { this.go(this.pos + 1); } prev() { this.go(this.pos - 1); }
 }
 function single_max(fb) { return fb.mode === 'single' ? fb.n - 1 : fb.n / 2; }
