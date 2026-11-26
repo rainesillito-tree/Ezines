@@ -99,11 +99,11 @@ drift=(F.lab('method four')+F.big(['catch the','drifting words'],28)
  +f'<div style="position:absolute;left:30px;top:310px;font-family:{S};font-size:9.5px;color:{INK};z-index:2">caught words · catch five and see what happens</div>'
  +f'<div id="net" style="position:absolute;left:30px;right:30px;top:326px;min-height:50px;z-index:2;font-family:{S};font-size:12px;line-height:1.7;color:{INK}"></div>'
  +f'<div style="position:absolute;left:30px;right:30px;bottom:12px;z-index:3;display:flex;justify-content:space-between"><button class="mini" id="drshelf">save to shelf</button><button class="mini" id="releaseall">let them all go</button></div>')
-CTA='if you want something more tangible to hold in your hand, you can purchase copies of my zines in my ko-fi luminarium store.'
+CTA='if you want something more tangible to hold in your hand, you can purchase copies of my zines in my Feel Good store.'
 LINKS=('https://ko-fi.com/s/f060f062c3','https://www.the-luminarium.org','https://rainesillito.substack.com')
 fl=(F.lab('the luminarium')+F.big(['more to','wander into'],28)
  +F.p(CTA,11.5,8)
- +''.join(f'<p style="margin:0 0 7px;position:relative;z-index:1;font-family:{S};font-size:12px;line-height:1.35"><a href="{u}" target="_blank" rel="noopener" style="color:{ACC}">{t}</a></p>' for t,u in (('ko-fi luminarium store',LINKS[0]),('the-luminarium.org',LINKS[1]),('rainesillito.substack.com',LINKS[2]))))
+ +''.join(f'<p style="margin:0 0 7px;position:relative;z-index:1;font-family:{S};font-size:12px;line-height:1.35"><a href="{u}" target="_blank" rel="noopener" style="color:{ACC}">{t}</a></p>' for t,u in (('ko-fi.com/s/f060f062c3',LINKS[0]),('the-luminarium.org',LINKS[1]),('rainesillito.substack.com',LINKS[2]))))
 shelfA=(F.lab('keep them')+F.big(['the poem shelf'],28)
  +F.p('save poems from the blackout, scrap and drifting-word pages here, where they stay on this device, and save any card as an image to share.',11,2)
  +'<div id="shelfA" style="position:absolute;left:30px;right:30px;top:168px;z-index:1"></div>')
@@ -232,8 +232,8 @@ P[7]=(RM.frame(f'<div style="{K_};font-size:21px;line-height:1.05;color:{INK_};t
  +RM.img('spr','width:64px;right:12px;bottom:10px'))
 KO='https://ko-fi.com/s/f060f062c3'
 P[9]=(RM.strip(f'<span style="{K_};font-size:28px;line-height:1">something to hold</span>',ACC_,'#fff',-2,'2px 14px 4px','display:inline-block;margin-bottom:10px')
- +f'<p style="position:relative;z-index:1;{S_};font-size:13px;line-height:1.45;color:{INK_};margin:0 0 12px">if you want something more tangible to hold in your hand, you can purchase copies of my zines in my ko-fi luminarium store.</p>'
- +f'<a href="{KO}" target="_blank" rel="noopener" style="position:relative;z-index:1;{C_};font-size:22px;color:{ACC_}">ko-fi.com/luminarium store &rarr;</a>')
+ +f'<p style="position:relative;z-index:1;{S_};font-size:13px;line-height:1.45;color:{INK_};margin:0 0 12px">if you want something more tangible to hold in your hand, you can purchase copies of my zines in my Feel Good store.</p>'
+ +f'<a href="{KO}" target="_blank" rel="noopener" style="position:relative;z-index:1;{C_};font-size:22px;color:{ACC_}">ko-fi.com/s/f060f062c3 &rarr;</a>')
 P[10]=(RM.strip(f'<span style="{K_};font-size:28px;line-height:1">the luminarium</span>',HI_,INK_,-2,'2px 14px 4px','display:inline-block;margin-bottom:12px')
  +''.join(f'<p style="margin:0 0 9px;position:relative;z-index:1;{S_};font-size:12.5px"><a href="{u}" target="_blank" rel="noopener" style="color:{ACC_}">{t}</a></p>' for t,u in (('the-luminarium.org','https://www.the-luminarium.org'),('rainesillito.substack.com','https://rainesillito.substack.com'))))
 rhtml=''.join(f'<div class="pg"><div class="pad">{P[n]}</div></div>' for n in range(1,11))
@@ -261,6 +261,6 @@ const rb=document.getElementById('rainbtn');const setR=on=>{rain.classList.toggl
 
 '''
 os.makedirs(f'{R}/rainy-day',exist_ok=True)
-rp=SHELL.format(title='instructions for a rainy day — an e-zine',css=rcss,pre='<div id="rain"></div>',hid='',hint='tap the boxes and type in the blanks as you go, and let the rain keep you company.',pdf='<button class="mini" id="rainbtn">let it rain</button> &nbsp; <a href="https://ko-fi.com/s/f060f062c3" target="_blank" rel="noopener">get the paper zines</a>',pages=sub(fix(rhtml),RMAP),pw=264,ph=408,ms=2,js=rjs)
+rp=SHELL.format(title='instructions for a rainy day — an e-zine',css=rcss,pre='<div id="rain"></div>',hid='',hint='',pdf='<button class="mini" id="rainbtn">let it rain</button> &nbsp; <a href="https://ko-fi.com/s/f060f062c3" target="_blank" rel="noopener">get the paper zines</a>',pages=sub(fix(rhtml),RMAP),pw=264,ph=408,ms=2,js=rjs)
 open(f'{R}/rainy-day/index.html','w').write(rp)
 print('rainy ok')
