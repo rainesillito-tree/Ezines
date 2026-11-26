@@ -99,7 +99,7 @@ drift=(F.lab('method four')+F.big(['catch the','drifting words'],28)
  +f'<div style="position:absolute;left:30px;top:310px;font-family:{S};font-size:9.5px;color:{INK};z-index:2">caught words · catch five and see what happens</div>'
  +f'<div id="net" style="position:absolute;left:30px;right:30px;top:326px;min-height:50px;z-index:2;font-family:{S};font-size:12px;line-height:1.7;color:{INK}"></div>'
  +f'<div style="position:absolute;left:30px;right:30px;bottom:12px;z-index:3;display:flex;justify-content:space-between"><button class="mini" id="drshelf">save to shelf</button><button class="mini" id="releaseall">let them all go</button></div>')
-CTA='if you want something more tangible to hold in your hand, you can purchase copies of my zines in my Feel Good store.'
+CTA='if you want something more tangible to hold in your hand, you can purchase copies of my zines in my Field Goods store.'
 LINKS=('https://ko-fi.com/s/f060f062c3','https://www.the-luminarium.org','https://rainesillito.substack.com')
 fl=(F.lab('the luminarium')+F.big(['more to','wander into'],28)
  +F.p(CTA,11.5,8)
@@ -232,7 +232,7 @@ P[7]=(RM.frame(f'<div style="{K_};font-size:21px;line-height:1.05;color:{INK_};t
  +RM.img('spr','width:64px;right:12px;bottom:10px'))
 KO='https://ko-fi.com/s/f060f062c3'
 P[9]=(RM.strip(f'<span style="{K_};font-size:28px;line-height:1">something to hold</span>',ACC_,'#fff',-2,'2px 14px 4px','display:inline-block;margin-bottom:10px')
- +f'<p style="position:relative;z-index:1;{S_};font-size:13px;line-height:1.45;color:{INK_};margin:0 0 12px">if you want something more tangible to hold in your hand, you can purchase copies of my zines in my Feel Good store.</p>'
+ +f'<p style="position:relative;z-index:1;{S_};font-size:13px;line-height:1.45;color:{INK_};margin:0 0 12px">if you want something more tangible to hold in your hand, you can purchase copies of my zines in my Field Goods store.</p>'
  +f'<a href="{KO}" target="_blank" rel="noopener" style="position:relative;z-index:1;{C_};font-size:22px;color:{ACC_}">ko-fi.com/s/f060f062c3 &rarr;</a>')
 P[10]=(RM.strip(f'<span style="{K_};font-size:28px;line-height:1">the luminarium</span>',HI_,INK_,-2,'2px 14px 4px','display:inline-block;margin-bottom:12px')
  +''.join(f'<p style="margin:0 0 9px;position:relative;z-index:1;{S_};font-size:12.5px"><a href="{u}" target="_blank" rel="noopener" style="color:{ACC_}">{t}</a></p>' for t,u in (('the-luminarium.org','https://www.the-luminarium.org'),('rainesillito.substack.com','https://rainesillito.substack.com'))))
