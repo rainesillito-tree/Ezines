@@ -259,14 +259,19 @@ document.querySelectorAll('.cb').forEach(c=>{if(load('cb'+c.dataset.i)==='1')c.c
 const rain=document.getElementById('rain');for(let i=0;i<9;i++){const d=document.createElement('b');d.style.left=(4+Math.random()*92)+'%';d.style.animationDuration=(7+Math.random()*7)+'s';d.style.animationDelay=(-Math.random()*10)+'s';d.style.transform='scale('+(.7+Math.random()*.9)+')';rain.appendChild(d);}for(let i=0;i<110;i++){const d=document.createElement('i');d.style.left=Math.random()*100+'%';d.style.animationDuration=(0.7+Math.random()*0.8)+'s';d.style.animationDelay=(-Math.random()*2)+'s';d.style.opacity=.25+Math.random()*.4;rain.appendChild(d);}
 const rb=document.getElementById('rainbtn');const setR=on=>{rain.classList.toggle('on',on);rb.textContent=on?'stop the rain':'let it rain';};rb.onclick=()=>setR(!rain.classList.contains('on'));if(!matchMedia('(prefers-reduced-motion:reduce)').matches)setR(true);
 let AC=null,SN=null;
-function startSound(){AC=AC||new (window.AudioContext||window.webkitAudioContext)();AC.resume();const sr=AC.sampleRate,len=sr*4,buf=AC.createBuffer(1,len,sr),d=buf.getChannelData(0);let b0=0,b1=0,b2=0;for(let i=0;i<len;i++){const w=Math.random()*2-1;b0=.99765*b0+w*.099046;b1=.963*b1+w*.2965164;b2=.57*b2+w*1.0526913;d[i]=(b0+b1+b2+w*.1848)*.11}
- const src=AC.createBufferSource();src.buffer=buf;src.loop=true;const hp=AC.createBiquadFilter();hp.type='highpass';hp.frequency.value=380;const lp=AC.createBiquadFilter();lp.type='lowpass';lp.frequency.value=7000;
- const g=AC.createGain();g.gain.value=0;g.gain.linearRampToValueAtTime(.55,AC.currentTime+1.5);
- const lfo=AC.createOscillator(),lg=AC.createGain();lfo.frequency.value=.13;lg.gain.value=.08;lfo.connect(lg);lg.connect(g.gain);lfo.start();
- src.connect(hp);hp.connect(lp);lp.connect(g);g.connect(AC.destination);src.start();
- const timer=setInterval(()=>{if(AC.state!=='running')return;const o=AC.createOscillator(),eg=AC.createGain();o.type='sine';o.frequency.value=1400+Math.random()*2600;eg.gain.setValueAtTime(.0001,AC.currentTime);eg.gain.exponentialRampToValueAtTime(.03,AC.currentTime+.004);eg.gain.exponentialRampToValueAtTime(.0001,AC.currentTime+.07);o.connect(eg);eg.connect(g);o.start();o.stop(AC.currentTime+.09)},140);
- SN={src,g,timer,lfo}}
-function stopSound(){if(!SN)return;const s=SN;SN=null;clearInterval(s.timer);s.g.gain.cancelScheduledValues(AC.currentTime);s.g.gain.setTargetAtTime(0,AC.currentTime,.2);setTimeout(()=>{try{s.src.stop();s.lfo.stop()}catch(e){}},900)}
+function tap(out,pan){const t=AC.currentTime,v=.5+Math.random()*.5;
+ const o=AC.createOscillator(),g=AC.createGain(),p=AC.createStereoPanner?AC.createStereoPanner():null;o.type='sine';const f=700+Math.random()*1500;o.frequency.setValueAtTime(f*1.35,t);o.frequency.exponentialRampToValueAtTime(f,t+.03);
+ g.gain.setValueAtTime(.0001,t);g.gain.exponentialRampToValueAtTime(.05*v,t+.003);g.gain.exponentialRampToValueAtTime(.0001,t+.09);
+ o.connect(g);if(p){p.pan.value=pan;g.connect(p);p.connect(out)}else g.connect(out);o.start(t);o.stop(t+.12);
+ const n=AC.createBufferSource();n.buffer=SN.click;const bp=AC.createBiquadFilter();bp.type='bandpass';bp.frequency.value=1800+Math.random()*1400;bp.Q.value=2;const ng=AC.createGain();ng.gain.value=.12*v;
+ n.connect(bp);bp.connect(ng);if(p)ng.connect(p);else ng.connect(out);n.start(t);}
+function startSound(){AC=AC||new (window.AudioContext||window.webkitAudioContext)();AC.resume();
+ const sr=AC.sampleRate,cb=AC.createBuffer(1,Math.floor(sr*.02),sr),d=cb.getChannelData(0);for(let i=0;i<d.length;i++)d[i]=(Math.random()*2-1)*Math.pow(1-i/d.length,3);
+ const out=AC.createGain();out.gain.value=0;out.gain.linearRampToValueAtTime(.7,AC.currentTime+1);const lp=AC.createBiquadFilter();lp.type='lowpass';lp.frequency.value=4200;out.connect(lp);lp.connect(AC.destination);
+ SN={click:cb,out,on:true};
+ (function next(){if(!SN||!SN.on)return;if(AC.state==='running'){tap(out,Math.random()*1.6-.8);if(Math.random()<.3)setTimeout(()=>SN&&SN.on&&tap(out,Math.random()*1.6-.8),60+Math.random()*120)}
+  SN.timer=setTimeout(next,Math.random()<.2?500+Math.random()*900:140+Math.random()*420)})()}
+function stopSound(){if(!SN)return;const s=SN;SN=null;s.on=false;clearTimeout(s.timer);s.out.gain.setTargetAtTime(0,AC.currentTime,.15)}
 const sb=document.getElementById('soundbtn');sb.onclick=()=>{if(SN){stopSound();sb.textContent='rain sound'}else{startSound();sb.textContent='sound off'}};
 
 '''
