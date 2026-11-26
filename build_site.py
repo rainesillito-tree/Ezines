@@ -56,7 +56,7 @@ words=F.words;kept=F.kept
 ws=' '.join(f'<span class="w{" keep" if n in kept else ""}" data-i="{n}">{w}</span>' for n,w in enumerate(words))
 black=(F.lab('method one')+F.big(['blackout'],30)
  +F.p('take a page from an old letter, a magazine, or an old book. circle the words that stand out to you, then cross out, color or black out the rest. read the words you’ve collected out loud.',11,2)
- +f'<div class="nudge" style="font-family:{C};font-size:17px;line-height:1;color:{ACC};position:relative;z-index:1;margin:2px 0 4px">&#9998; your turn: tap any word to black it out. tap again to bring it back.</div>'
+ +f'<div class="nudge" style="font-family:{C};font-size:15px;line-height:1.05;color:{ACC};position:relative;z-index:1;margin:2px 0 4px">&#9998; your turn: tap any words to black them out, and tap again to bring them back if you change your mind.</div>'
  +f'<div id="bo" style="font-family:{S};font-size:9.5px;line-height:1.55;color:{INK};position:relative;z-index:1;margin-top:0"></div>'
  +f'<div id="bopoem" style="font-family:{S};font-size:11px;line-height:1.25;color:{INK};position:relative;z-index:1;margin-top:4px;font-style:italic;min-height:40px"></div>'
  +f'<div style="position:absolute;left:30px;width:258px;bottom:12px;z-index:2;display:flex;flex-wrap:wrap;gap:5px"><button class="mini" id="boclear">reset</button><button class="mini" id="boex">example</button><button class="mini" id="bonew">new text</button><button class="mini" id="boshelf">save to shelf</button></div>')
@@ -69,7 +69,7 @@ for i,t in enumerate(scr):
     sc+=f'<div class="drag scrap" data-i="{i}" style="background:{bg};color:{fg};font-family:{ff};font-size:{sz}px;line-height:1;padding:5px 8px 6px;box-shadow:1px 2px 0 rgba(0,0,0,.18);{ex}">{t}</div>'
 cutp=(F.lab('method two')+F.big(['cut and','rearrange'],30)
  +F.p('cut single words out of anything. spread them on the table. move them around until the lines start to hum. glue them down.',11,2)
- +f'<div class="nudge" style="font-family:{C};font-size:17px;line-height:1;color:{ACC};position:relative;z-index:1;margin:2px 0">&#9998; your turn: drag the scraps around the table and build a line.</div>'
+ +f'<div class="nudge" style="font-family:{C};font-size:15px;line-height:1.05;color:{ACC};position:relative;z-index:1;margin:2px 0">&#9998; your turn: drag the scraps around the table until a line starts to hum.</div>'
  +f'<div id="table" data-w="315" data-h="165" style="position:absolute;left:0;top:222px;width:315px;height:165px;z-index:1">{sc}</div>'
  +f'<div style="position:absolute;left:30px;right:30px;bottom:12px;z-index:2;display:flex;justify-content:space-between"><button class="mini" id="scshelf">save to shelf</button><button class="mini" id="scatter">scatter</button></div>')
 # gather (checkable)
@@ -94,9 +94,9 @@ def fo_i():
     return r+F.im('flow','width:70px;left:30px;bottom:34px')
 words2=['hush','lantern','moss','remember','slow','window','salt','borrowed','light','kettle','unfold','small','tender','hum','rain','somewhere','almost','thread']
 drift=(F.lab('method four')+F.big(['catch the','drifting words'],28)
- +f'<div class="nudge" style="font-family:{C};font-size:17px;line-height:1;color:{ACC};position:relative;z-index:1;margin:4px 0 0">&#9998; your turn: words are drifting by. tap one to catch it. tap a caught word to let it go.</div>'
- +'<div id="sky" data-w="315" data-h="150" style="position:absolute;left:0;top:152px;width:315px;height:150px;z-index:1;overflow:hidden;border:1.2px dashed #2a2a2a55;border-radius:10px">'+''.join(f'<span class="fw" data-nosw="1">{w}</span>' for w in words2)+'</div>'
- +f'<div style="position:absolute;left:30px;top:310px;font-family:{S};font-size:9.5px;color:{INK};z-index:2">caught words · catch five, see what happens</div>'
+ +f'<div class="nudge" style="font-family:{C};font-size:15px;line-height:1.05;color:{ACC};position:relative;z-index:1;margin:4px 0 0">&#9998; your turn: tap a drifting word to catch it, and tap it again in your tray if you would like to let it go.</div>'
+ +'<div id="sky" data-w="315" data-h="138" style="position:absolute;left:0;top:166px;width:315px;height:138px;z-index:1;overflow:hidden;border:1.2px dashed #2a2a2a55;border-radius:10px">'+''.join(f'<span class="fw" data-nosw="1">{w}</span>' for w in words2)+'</div>'
+ +f'<div style="position:absolute;left:30px;top:310px;font-family:{S};font-size:9.5px;color:{INK};z-index:2">caught words · catch five and see what happens</div>'
  +f'<div id="net" style="position:absolute;left:30px;right:30px;top:326px;min-height:50px;z-index:2;font-family:{S};font-size:12px;line-height:1.7;color:{INK}"></div>'
  +f'<div style="position:absolute;left:30px;right:30px;bottom:12px;z-index:3;display:flex;justify-content:space-between"><button class="mini" id="drshelf">save to shelf</button><button class="mini" id="releaseall">let them all go</button></div>')
 CTA='if you want something more tangible to hold in your hand, you can purchase copies of my zines in my ko-fi luminarium store.'
@@ -105,12 +105,11 @@ fl=(F.lab('the luminarium')+F.big(['more to','wander into'],28)
  +F.p(CTA,11.5,8)
  +''.join(f'<p style="margin:0 0 7px;position:relative;z-index:1;font-family:{S};font-size:12px;line-height:1.35"><a href="{u}" target="_blank" rel="noopener" style="color:{ACC}">{t}</a></p>' for t,u in (('ko-fi luminarium store',LINKS[0]),('the-luminarium.org',LINKS[1]),('rainesillito.substack.com',LINKS[2]))))
 shelfA=(F.lab('keep them')+F.big(['the poem shelf'],28)
- +F.p('save poems from the blackout, scrap and drifting-word pages. they stay on this device. save any card as an image to share.',11,2)
- +'<div id="shelfA" style="position:absolute;left:30px;right:30px;top:150px;z-index:1"></div>')
+ +F.p('save poems from the blackout, scrap and drifting-word pages here, where they stay on this device, and save any card as an image to share.',11,2)
+ +'<div id="shelfA" style="position:absolute;left:30px;right:30px;top:168px;z-index:1"></div>')
 shelfB='<div id="shelfB" style="position:absolute;left:30px;right:30px;top:34px;z-index:1"></div>'
 hid1=(F.lab('a hidden page')+F.big(['you caught','enough words.'],28)
- +F.p('so here is a secret the ordinary keeps. the words were never lost. they were only drifting, waiting for someone to look up.',12,8)
- +F.p('go on noticing.',12,8)
+ +F.p('so here is a secret the ordinary keeps, which is that the words were never lost, they were only drifting, waiting for someone to look up, so go on noticing.',12,8)
  +f'<p style="margin:0;position:relative;z-index:1;font-family:{S};font-size:12px"><a href="https://rainesillito.substack.com" target="_blank" rel="noopener" style="color:{ACC}">rainesillito.substack.com</a></p>')
 hid2=(F.lab('the words you caught')+'<div id="hidwords" style="position:relative;z-index:1;font-family:'+S+';font-size:12px;line-height:2;color:'+INK+';margin-top:6px"></div>'
  +'<div style="position:absolute;left:30px;bottom:12px;z-index:2"><button class="mini" id="hwshelf">save these to the shelf</button></div>')
@@ -141,6 +140,7 @@ fcss='''.in{position:relative;zoom:1.2941;width:315.2px;height:408px;box-sizing:
 .w{transition:background .3s,color .3s}
 
 .mini{padding:3px 7px}
+.pg a{color:#1f7a6d}
 .scard{border:1.2px solid #2a2a2a;background:#fbf8f0;padding:6px 8px 5px;margin-bottom:7px;box-shadow:1px 2px 0 rgba(0,0,0,.14);animation:pop .3s}
 .scard:nth-child(odd){transform:rotate(-.8deg)}.scard:nth-child(even){transform:rotate(.7deg)}
 .scard .ct{font-family:'Special Elite',monospace;font-size:10.5px;line-height:1.35;white-space:pre-line;display:-webkit-box;-webkit-line-clamp:4;-webkit-box-orient:vertical;overflow:hidden;margin-bottom:5px}
@@ -148,7 +148,7 @@ fcss='''.in{position:relative;zoom:1.2941;width:315.2px;height:408px;box-sizing:
 .empty{font-family:'Special Elite',monospace;font-size:10.5px;opacity:.5;border:1.2px dashed #2a2a2a;padding:10px;text-align:center}
 @media (prefers-reduced-motion:reduce){.pg img,.scrap,.nudge,.face.vis .in{animation:none}}'''
 fjs=r'''
-const sky=document.getElementById('sky'),net=document.getElementById('net'),fws=[...sky.querySelectorAll('.fw')],SW=315,SH=150;
+const sky=document.getElementById('sky'),net=document.getElementById('net'),fws=[...sky.querySelectorAll('.fw')],SW=315,SH=138;
 const st=fws.map(el=>({el,x:Math.random()*200,y:Math.random()*150,vx:(Math.random()<.5?-1:1)*(14+Math.random()*22),vy:(Math.random()<.5?-1:1)*(8+Math.random()*16),on:true}));
 const fonts=["'Fraunces',serif","'Special Elite',monospace","'Caveat',cursive","'Shrikhand',cursive"];
 fws.forEach((el,i)=>{el.style.fontFamily=fonts[i%4];el.style.fontSize=[17,13,21,15][i%4]+'px';el.style.fontStyle=i%4===0?'italic':'normal';el.style.color=i%3===0?'#1f7a6d':'#2a2a2a';});
@@ -188,7 +188,7 @@ function renderShelf(){const A=document.getElementById('shelfA'),B=document.getE
  shelf.forEach((p,i)=>{const d=document.createElement('div');d.className='scard';d.dataset.nosw=1;d.innerHTML='<div class="ct"></div><div class="row"><button class="mini" data-a="dl">save as image</button><button class="mini" data-a="rm">remove</button></div>';d.querySelector('.ct').textContent=p;
   d.querySelector('[data-a=dl]').onclick=()=>cardPNG(p);d.querySelector('[data-a=rm]').onclick=()=>{shelf.splice(i,1);store('shelf',JSON.stringify(shelf));renderShelf()};
   (i<2?A:B).appendChild(d)})}
-function toShelf(text){text=(text||'').trim();if(!text){say('nothing to save yet');return}shelf.unshift(text);if(shelf.length>CAP)shelf.length=CAP;store('shelf',JSON.stringify(shelf));renderShelf();say('saved to the poem shelf')}
+function toShelf(text){text=(text||'').trim();if(!text){say('there is nothing here to save yet');return}shelf.unshift(text);if(shelf.length>CAP)shelf.length=CAP;store('shelf',JSON.stringify(shelf));renderShelf();say('saved to the poem shelf')}
 async function cardPNG(text){try{await document.fonts.load("54px 'Special Elite'");await document.fonts.load("40px 'Caveat'")}catch(e){}
  const c=document.createElement('canvas');c.width=1080;c.height=1350;const x=c.getContext('2d');x.fillStyle='#fbf8f0';x.fillRect(0,0,1080,1350);
  x.strokeStyle='rgba(60,120,105,.2)';x.lineWidth=2;for(let i=0;i<=1080;i+=45){x.beginPath();x.moveTo(i,0);x.lineTo(i,1350);x.stroke()}for(let j=0;j<=1350;j+=45){x.beginPath();x.moveTo(0,j);x.lineTo(1080,j);x.stroke()}
@@ -212,7 +212,7 @@ if(unlocked)openHidden(false);
 
 '''
 os.makedirs(f'{R}/found-poetry',exist_ok=True)
-page=SHELL.format(title='how to write found poetry — an e-zine',css=fcss,pre='',hid=fhid,hint='this one is interactive: tap, drag, catch and type.',pdf='<a href="how-to-write-found-poetry.pdf">print the paper version (pdf)</a>',pages=sub(fix(fhtml),FM),pw=408,ph=528,ms=1.6,js=fjs)
+page=SHELL.format(title='how to write found poetry — an e-zine',css=fcss,pre='',hid=fhid,hint='this one is interactive, so tap and drag and type your way through it and see what you can catch.',pdf='<a href="how-to-write-found-poetry.pdf">print the paper version (pdf)</a>',pages=sub(fix(fhtml),FM),pw=408,ph=528,ms=1.6,js=fjs)
 open(f'{R}/found-poetry/index.html','w').write(page)
 print('found ok')
 
@@ -258,24 +258,9 @@ document.querySelectorAll('[data-k]').forEach(el=>{const v=load(el.dataset.k);if
 document.querySelectorAll('.cb').forEach(c=>{if(load('cb'+c.dataset.i)==='1')c.classList.add('on');c.addEventListener('click',()=>{c.classList.toggle('on');store('cb'+c.dataset.i,c.classList.contains('on')?'1':'0')})});
 const rain=document.getElementById('rain');for(let i=0;i<9;i++){const d=document.createElement('b');d.style.left=(4+Math.random()*92)+'%';d.style.animationDuration=(7+Math.random()*7)+'s';d.style.animationDelay=(-Math.random()*10)+'s';d.style.transform='scale('+(.7+Math.random()*.9)+')';rain.appendChild(d);}for(let i=0;i<110;i++){const d=document.createElement('i');d.style.left=Math.random()*100+'%';d.style.animationDuration=(0.7+Math.random()*0.8)+'s';d.style.animationDelay=(-Math.random()*2)+'s';d.style.opacity=.25+Math.random()*.4;rain.appendChild(d);}
 const rb=document.getElementById('rainbtn');const setR=on=>{rain.classList.toggle('on',on);rb.textContent=on?'stop the rain':'let it rain';};rb.onclick=()=>setR(!rain.classList.contains('on'));if(!matchMedia('(prefers-reduced-motion:reduce)').matches)setR(true);
-let AC=null,SN=null;
-function tap(out,pan){const t=AC.currentTime,v=.5+Math.random()*.5;
- const o=AC.createOscillator(),g=AC.createGain(),p=AC.createStereoPanner?AC.createStereoPanner():null;o.type='sine';const f=700+Math.random()*1500;o.frequency.setValueAtTime(f*1.35,t);o.frequency.exponentialRampToValueAtTime(f,t+.03);
- g.gain.setValueAtTime(.0001,t);g.gain.exponentialRampToValueAtTime(.05*v,t+.003);g.gain.exponentialRampToValueAtTime(.0001,t+.09);
- o.connect(g);if(p){p.pan.value=pan;g.connect(p);p.connect(out)}else g.connect(out);o.start(t);o.stop(t+.12);
- const n=AC.createBufferSource();n.buffer=SN.click;const bp=AC.createBiquadFilter();bp.type='bandpass';bp.frequency.value=1800+Math.random()*1400;bp.Q.value=2;const ng=AC.createGain();ng.gain.value=.12*v;
- n.connect(bp);bp.connect(ng);if(p)ng.connect(p);else ng.connect(out);n.start(t);}
-function startSound(){AC=AC||new (window.AudioContext||window.webkitAudioContext)();AC.resume();
- const sr=AC.sampleRate,cb=AC.createBuffer(1,Math.floor(sr*.02),sr),d=cb.getChannelData(0);for(let i=0;i<d.length;i++)d[i]=(Math.random()*2-1)*Math.pow(1-i/d.length,3);
- const out=AC.createGain();out.gain.value=0;out.gain.linearRampToValueAtTime(.7,AC.currentTime+1);const lp=AC.createBiquadFilter();lp.type='lowpass';lp.frequency.value=4200;out.connect(lp);lp.connect(AC.destination);
- SN={click:cb,out,on:true};
- (function next(){if(!SN||!SN.on)return;if(AC.state==='running'){tap(out,Math.random()*1.6-.8);if(Math.random()<.3)setTimeout(()=>SN&&SN.on&&tap(out,Math.random()*1.6-.8),60+Math.random()*120)}
-  SN.timer=setTimeout(next,Math.random()<.2?500+Math.random()*900:140+Math.random()*420)})()}
-function stopSound(){if(!SN)return;const s=SN;SN=null;s.on=false;clearTimeout(s.timer);s.out.gain.setTargetAtTime(0,AC.currentTime,.15)}
-const sb=document.getElementById('soundbtn');sb.onclick=()=>{if(SN){stopSound();sb.textContent='rain sound'}else{startSound();sb.textContent='sound off'}};
 
 '''
 os.makedirs(f'{R}/rainy-day',exist_ok=True)
-rp=SHELL.format(title='instructions for a rainy day — an e-zine',css=rcss,pre='<div id="rain"></div>',hid='',hint='tap the boxes, type in the blanks.',pdf='<button class="mini" id="rainbtn">let it rain</button> <button class="mini" id="soundbtn">rain sound</button> &nbsp; <a href="https://ko-fi.com/s/f060f062c3" target="_blank" rel="noopener">get the paper zines</a>',pages=sub(fix(rhtml),RMAP),pw=264,ph=408,ms=2,js=rjs)
+rp=SHELL.format(title='instructions for a rainy day — an e-zine',css=rcss,pre='<div id="rain"></div>',hid='',hint='tap the boxes and type in the blanks as you go, and let the rain keep you company.',pdf='<button class="mini" id="rainbtn">let it rain</button> &nbsp; <a href="https://ko-fi.com/s/f060f062c3" target="_blank" rel="noopener">get the paper zines</a>',pages=sub(fix(rhtml),RMAP),pw=264,ph=408,ms=2,js=rjs)
 open(f'{R}/rainy-day/index.html','w').write(rp)
 print('rainy ok')
